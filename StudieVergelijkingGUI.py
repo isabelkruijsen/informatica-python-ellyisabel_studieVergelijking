@@ -61,11 +61,11 @@ labelIntro.grid(row=0, column=0, sticky="W")
 # invoerVeldSchoolNaam.grid(row=1, column=1, sticky="W")
 
 studieNaam = Label(venster, text="Studie:")
-studieNaam.grid(row=2, column=0)
+studieNaam.grid(row=1, column=0)
 
 ingevoerde_studieNaam = StringVar()
 invoerVeldStudieNaam = Entry(venster, textvariable= ingevoerde_studieNaam)
-invoerVeldStudieNaam.grid(row=2, column=1, sticky="W")
+invoerVeldStudieNaam.grid(row=1, column=1, sticky="W")
 
 #stadNaam = Label(venster, text="Stad:")
 #stadNaam.grid(row=3, column=0)
@@ -80,11 +80,11 @@ KnopZoekStudies.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStu
 
 
 listboxStudieSchoolStad = Listbox(venster, height= 6, width= 50)
-listboxStudieSchoolStad.grid(row=4, column=0, rowspan= 6, columnspan= 2, sticky= "W")
+listboxStudieSchoolStad.grid(row=3, column=1, rowspan= 6, columnspan= 2, sticky= "W")
 listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
 scrollbarlistbox = Scrollbar(venster)
-scrollbarlistbox.grid(row=4, column=2, rowspan=6, sticky="E")
+scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
 scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
