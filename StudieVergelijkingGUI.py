@@ -22,6 +22,17 @@ def zoekStudies():
          #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
         invoerVeldStudieNaam.insert(END, rij[1])
 
+### functie voor het selecteren van een rij uit de listbox en deze in een andere veld te plaatsen
+def haalGeselecteerdeRijOp(event):
+    #bepaal op welke regel er geklikt is
+    geselecteerdeRegelInLijst = listboxStudiePerSchool.curselection()[0] 
+    #haal tekst uit die regel
+    geselecteerdeTekst = listboxStudiePerSchool.get(geselecteerdeRegelInLijst) 
+    #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
+    invoerVeldStudieNaam.delete(0, END) 
+    #zet tekst in veld
+    invoerVeldStudieNaam.insert(0, geselecteerdeTekst)
+
 ### --------- Hoofdprogramma  ---------------
 
 venster = Tk()
