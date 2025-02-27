@@ -25,29 +25,22 @@ venster.wm_title("StudieVergelijking")
 labelIntro = Label(venster, text="Welkom! Vul hieronder een of meerdere zoektermen in, vervolgens zul je alle opties met jouw ingevulde eisen zien. Als je een studie selecteert, kun je vervolgens meer studie info of reisinformatie opvragen.")
 labelIntro.grid(row=0, column=0, sticky="W")
 
-
 schoolNaam = Label(venster, text="School:")
 schoolNaam.grid(row=1, column=0)
-
 
 ingevoerde_schoolNaam = StringVar ()
 invoerVeldSchoolNaam = Entry(venster, textvariable= ingevoerde_schoolNaam)
 invoerVeldSchoolNaam.grid(row=1, column=1, sticky="W")
 
-
 studieNaam = Label(venster, text="Studie:")
 studieNaam.grid(row=2, column=0)
-
 
 ingevoerde_studieNaam = StringVar ()
 invoerVeldStudieNaam = Entry(venster, textvariable= ingevoerde_studieNaam)
 invoerVeldStudieNaam.grid(row=2, column=1, sticky="W")
 
-
-
 stadNaam = Label(venster, text="Stad:")
 stadNaam.grid(row=3, column=0)
-
 
 ingevoerde_stadNaam = StringVar ()
 invoerVeldStadNaam = Entry(venster, textvariable= ingevoerde_stadNaam)
@@ -58,6 +51,14 @@ KnopZoek.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!
 
 
 
+listboxMenu = Listbox(venster, height= 6, width= 50)
+listboxMenu.grid(row=4, column=1, rowspan= 6, columnspan= 2, sticky= "W")
+listboxMenu.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
+
+scrollbarlistbox = Scrollbar(venster)
+scrollbarlistbox.grid(row=4, column=2, rowspan=6, sticky="E")
+listboxMenu.config(yscrollcommand=scrollbarlistbox.set)
+scrollbarlistbox.config(command=listboxMenu.yview)
 
 
 
