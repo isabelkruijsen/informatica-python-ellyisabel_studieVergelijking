@@ -54,7 +54,7 @@ invoerVeldStadNaam = Entry(venster, textvariable= ingevoerde_stadNaam)
 invoerVeldStadNaam.grid(row=3, column=1, sticky="W")
 
 KnopZoek = Button(venster, text="Zoek", width= 12, command= zoekStudies)
-KnopZoek.grid(row=1, column=3)
+KnopZoek.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!!!!!!!
 
 
 
