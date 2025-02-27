@@ -40,7 +40,8 @@ venster = Tk()
 venster.iconbitmap("MC_icon.ico") #Let op: Dit werkt niet op een MAC! Zet deze regel dan in commentaar
 venster.wm_title("StudieVergelijking")
 
-labelIntro = Label(venster, text="Welkom! Vul hieronder een of meerdere zoektermen in, vervolgens zul je alle opties met jouw ingevulde eisen zien. Als je een studie selecteert, kun je vervolgens meer studie info of reisinformatie opvragen.")
+labelIntro = Label(venster, text="Welkom!")
+#Vul hieronder een of meerdere zoektermen in, vervolgens zul je alle opties met jouw ingevulde eisen zien. Als je een studie selecteert, kun je vervolgens meer studie info of reisinformatie opvragen.
 labelIntro.grid(row=0, column=0, sticky="W")
 
 # schoolNaam = Label(venster, text="School:")
