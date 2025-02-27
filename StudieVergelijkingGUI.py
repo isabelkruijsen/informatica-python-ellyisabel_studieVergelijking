@@ -33,6 +33,7 @@ def haalGeselecteerdeRijOp(event):
     #zet tekst in veld
     invoerVeldStudieNaam.insert(0, geselecteerdeTekst)
 
+
 ### --------- Hoofdprogramma  ---------------
 
 venster = Tk()
