@@ -51,14 +51,14 @@ KnopZoek.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!
 
 
 
-listboxMenu = Listbox(venster, height= 6, width= 50)
-listboxMenu.grid(row=4, column=1, rowspan= 6, columnspan= 2, sticky= "W")
-listboxMenu.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
+listboxStudiePerSchool = Listbox(venster, height= 6, width= 50)
+listboxStudiePerSchool.grid(row=4, column=0, rowspan= 6, columnspan= 2, sticky= "W")
+listboxStudiePerSchool.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=4, column=2, rowspan=6, sticky="E")
-listboxMenu.config(yscrollcommand=scrollbarlistbox.set)
-scrollbarlistbox.config(command=listboxMenu.yview)
+listboxStudiePerSchool.config(yscrollcommand=scrollbarlistbox.set)
+scrollbarlistbox.config(command=listboxStudiePerSchool.yview)
 
 
 
