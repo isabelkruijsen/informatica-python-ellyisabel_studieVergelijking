@@ -15,6 +15,14 @@ with sqlite3.connect("studies.db") as db:
 
 
 ### ---------  Functie definities  -----------------
+# def maakTabellenAan():
+#  # Maak een nieuwe tabel met 3 kolommen: id, naam, prijs
+#     cursor.execute("""
+#         CREATE TABLE IF NOT EXISTS tbl_StudiePerSchool(
+#             StudiePerSchoolID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+#             SchoolID  NOT NULL,
+#             StudieID REAL NOT NULL);""")
+#     print("Tabel 'tbl_pizzas' aangemaakt.")
 
 
 ### --------- Hoofdprogramma  ---------------

@@ -14,7 +14,13 @@ import StudieVergelijkingSQL
 
 
 ### ---------  Functie definities  -----------------
-
+def zoekStudies():
+    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(ingevoerde_studieNaam)
+    print("gevonden studies", gevonden_Studies)
+    invoerVeldStudieNaam.delete(0, END) #invoerveld voor naam leeg maken
+    for rij in gevonden_Studies: #voor elke rij dat de query oplevert
+         #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
+        invoerVeldStudieNaam.insert(END, rij[1])
 
 ### --------- Hoofdprogramma  ---------------
 
@@ -25,12 +31,12 @@ venster.wm_title("StudieVergelijking")
 labelIntro = Label(venster, text="Welkom! Vul hieronder een of meerdere zoektermen in, vervolgens zul je alle opties met jouw ingevulde eisen zien. Als je een studie selecteert, kun je vervolgens meer studie info of reisinformatie opvragen.")
 labelIntro.grid(row=0, column=0, sticky="W")
 
-schoolNaam = Label(venster, text="School:")
-schoolNaam.grid(row=1, column=0)
+# schoolNaam = Label(venster, text="School:")
+# schoolNaam.grid(row=1, column=0)
 
-ingevoerde_schoolNaam = StringVar ()
-invoerVeldSchoolNaam = Entry(venster, textvariable= ingevoerde_schoolNaam)
-invoerVeldSchoolNaam.grid(row=1, column=1, sticky="W")
+# ingevoerde_schoolNaam = StringVar () (VOOR UITBREIDING!!!!!!)
+# invoerVeldSchoolNaam = Entry(venster, textvariable= ingevoerde_schoolNaam)
+# invoerVeldSchoolNaam.grid(row=1, column=1, sticky="W")
 
 studieNaam = Label(venster, text="Studie:")
 studieNaam.grid(row=2, column=0)
@@ -39,15 +45,15 @@ ingevoerde_studieNaam = StringVar ()
 invoerVeldStudieNaam = Entry(venster, textvariable= ingevoerde_studieNaam)
 invoerVeldStudieNaam.grid(row=2, column=1, sticky="W")
 
-stadNaam = Label(venster, text="Stad:")
-stadNaam.grid(row=3, column=0)
+#stadNaam = Label(venster, text="Stad:")
+#stadNaam.grid(row=3, column=0)
 
-ingevoerde_stadNaam = StringVar ()
-invoerVeldStadNaam = Entry(venster, textvariable= ingevoerde_stadNaam)
-invoerVeldStadNaam.grid(row=3, column=1, sticky="W")
+# ingevoerde_stadNaam = StringVar ()   (VOOR UITBREIDING!!!!!!)
+# invoerVeldStadNaam = Entry(venster, textvariable= ingevoerde_stadNaam)
+# invoerVeldStadNaam.grid(row=3, column=1, sticky="W")
 
-KnopZoek = Button(venster, text="Zoek", width= 12, command= zoekStudies)
-KnopZoek.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!!!!!!!
+KnopZoekStudies = Button(venster, text="Zoek", width= 12, command= zoekStudies)
+KnopZoekStudies.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!!!!!!!
 
 
 
