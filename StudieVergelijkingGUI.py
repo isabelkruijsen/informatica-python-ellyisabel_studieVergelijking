@@ -15,19 +15,28 @@ import StudieVergelijkingSQL
 
 ### ---------  Functie definities  -----------------
 def zoekStudies():
-    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(ingevoerde_studieNaam)
+    studie_naam = ingevoerde_studieNaam.get() 
+    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(studie_naam)
     print("gevonden studies", gevonden_Studies)
     invoerVeldStudieNaam.delete(0, END) #invoerveld voor naam leeg maken
     for rij in gevonden_Studies: #voor elke rij dat de query oplevert
          #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
         invoerVeldStudieNaam.insert(END, rij[1])
+    toonStudieSchoolStadInListbox()
+
+def toonStudieSchoolStadInListbox():
+    listboxStudieSchoolStad.delete(0, END) #maak de listbox leeg
+    Studie_tabel = StudieVergelijkingSQL.vraagOpGegevensStudiesTabel()
+    for regel in Studie_tabel:
+        listboxStudieSchoolStad.insert(END, regel) #voeg elke regel uit resultaat in listboxMenu
+    listboxStudieSchoolStad.insert(0, "school studie stad")
 
 ### functie voor het selecteren van een rij uit de listbox en deze in een andere veld te plaatsen
 def haalGeselecteerdeRijOp(event):
     #bepaal op welke regel er geklikt is
-    geselecteerdeRegelInLijst = listboxStudiePerSchool.curselection()[0] 
+    geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] 
     #haal tekst uit die regel
-    geselecteerdeTekst = listboxStudiePerSchool.get(geselecteerdeRegelInLijst) 
+    geselecteerdeTekst = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst) 
     #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
     invoerVeldStudieNaam.delete(0, END) 
     #zet tekst in veld
@@ -54,7 +63,7 @@ labelIntro.grid(row=0, column=0, sticky="W")
 studieNaam = Label(venster, text="Studie:")
 studieNaam.grid(row=2, column=0)
 
-ingevoerde_studieNaam = StringVar ()
+ingevoerde_studieNaam = StringVar()
 invoerVeldStudieNaam = Entry(venster, textvariable= ingevoerde_studieNaam)
 invoerVeldStudieNaam.grid(row=2, column=1, sticky="W")
 
@@ -70,14 +79,14 @@ KnopZoekStudies.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStu
 
 
 
-listboxStudiePerSchool = Listbox(venster, height= 6, width= 50)
-listboxStudiePerSchool.grid(row=4, column=0, rowspan= 6, columnspan= 2, sticky= "W")
-listboxStudiePerSchool.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
+listboxStudieSchoolStad = Listbox(venster, height= 6, width= 50)
+listboxStudieSchoolStad.grid(row=4, column=0, rowspan= 6, columnspan= 2, sticky= "W")
+listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=4, column=2, rowspan=6, sticky="E")
-listboxStudiePerSchool.config(yscrollcommand=scrollbarlistbox.set)
-scrollbarlistbox.config(command=listboxStudiePerSchool.yview)
+listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
+scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
 
 

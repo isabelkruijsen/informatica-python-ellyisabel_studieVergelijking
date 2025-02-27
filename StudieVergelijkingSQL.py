@@ -68,13 +68,26 @@ def voegSchoolToe(nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_met
     db.commit()
     print("School toegevoegd.")
 
+def zoekStudiesInTabel(ingevoerde_studieNaam):
+    cursor.execute("SELECT * FROM tbl_Studies WHERE Studienaam = ?", (ingevoerde_studieNaam, ))
+    zoek_resultaat = cursor.fetchall()
+    if zoek_resultaat == []: #resultaat is leeg, geen gerecht gevonden
+        print("Geen Studie gevonden met Studienaam:", ingevoerde_studieNaam)
+    return zoek_resultaat
+
+def vraagOpGegevensStudiesTabel():
+    cursor.execute("SELECT * FROM tbl_Studies")
+    resultaat = cursor.fetchall()
+    print("Tabel tbl_Studies:", resultaat)
+    return resultaat
 ### --------- Hoofdprogramma  ---------------
 maakTabellenAan()
 
 # eerste studie toevoegen, biologie op het RU
-voegStudieperschoolToe(21, 1, 71, 3, 200, 4.3, 250)
 voegStudieToe("Biologie", "N&G")
 voegSchoolToe("RU", 8, 39, "bus-bus", 2.78, "Nijmegen", "6525 XZ", 4)
+voegStudieperschoolToe(21, 1, 71, 3, 200, 4.3, 250)
+
 # tweede studie, economie in utrecht
 
 #derde studie, geneeskunde TU/E
