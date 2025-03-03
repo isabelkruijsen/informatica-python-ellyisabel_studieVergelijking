@@ -11,9 +11,8 @@
 
 import sqlite3
 
-# Open een connectie met de database
 with sqlite3.connect("studies.db") as db:
-    cursor = db.cursor()
+    cursor = db.cursor() #cursor is object waarmee je data uit de database kan halen
 
     # Functie om de tabellen aan te maken
     def maakTabellenAan():
@@ -64,18 +63,16 @@ with sqlite3.connect("studies.db") as db:
     def voegStudieToe(nieuw_studienaam, nieuw_profiel):
         cursor.execute("""
             INSERT INTO tbl_Studies (Studienaam, Profiel)
-            VALUES (?, ?)
-        """, (nieuw_studienaam, nieuw_profiel))
+            VALUES (?, ?)""", (nieuw_studienaam, nieuw_profiel))
         db.commit()
         print("Studie toegevoegd:", nieuw_studienaam)
-        return cursor.lastrowid
+        return cursor.lastrowid #geeft automatisch gegenererde sleutel van een ingevoegde rij MAG DIT???
 
     # Functie om een school toe te voegen en de gegenereerde ID terug te geven
     def voegSchoolToe(nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer):
         cursor.execute("""
             INSERT INTO tbl_Scholen (Schoolnaam, Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        """, (nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer))
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)""", (nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer))
         db.commit()
         print("School toegevoegd:", nieuw_schoolnaam)
         return cursor.lastrowid
@@ -84,55 +81,54 @@ with sqlite3.connect("studies.db") as db:
     def voegStudieperschoolToe(nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus):
         cursor.execute("""
             INSERT INTO tbl_StudiePerSchool (SchoolID, StudieID, ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, (nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus))
+            VALUES (?, ?, ?, ?, ?, ?, ?)""", (nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus))
         db.commit()
         print("Studie per school toegevoegd.")
         return cursor.lastrowid
 
     # Functie om studies te zoeken met een gedeeltelijke match op de studienaam
     def zoekStudiesInTabel(ingevoerde_studieNaam):
-        # Voeg wildcards toe zodat er gezocht wordt naar alle records die de ingevoerde term bevatten
-        like_param = f"%{ingevoerde_studieNaam}%"
+        # Voeg joker toe zodat er gezocht wordt naar studie als er fout wordt getypt
+        fout_getypt = "%" + ingevoerde_studieNaam + "%"  ### WERKT DIT??? biologiey herkent hij niet
         cursor.execute("""
             SELECT tbl_Studies.Studienaam, tbl_Scholen.Schoolnaam, tbl_Scholen.Stad
             FROM tbl_Studies
             JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID
             JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID
             WHERE tbl_Studies.Studienaam LIKE ?
-        """, (like_param,))
+        """, (fout_getypt,))
         zoek_resultaat = cursor.fetchall()
         if not zoek_resultaat:
             print("Geen Studie gevonden met Studienaam:", ingevoerde_studieNaam)
         return zoek_resultaat
 
-    # Functie om alle studies in tbl_Studies op te vragen (optioneel)
+ 
+   # Functie om alle studies in tbl_Studies op te vragen (optioneel)
     def vraagOpGegevensStudiesTabel():
-        cursor.execute("SELECT * FROM tbl_Studies")
+        cursor.execute("SELECT tbl_Studies.Studienaam, tbl_Scholen.Schoolnaam, tbl_Scholen.Stad FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID")
         resultaat = cursor.fetchall()
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
-
     ### Hoofdprogramma
 
     maakTabellenAan()
 
-    # Eerste studie: "Biologie" bij school "RU"
+    # Eerste studie: Biologie op RU
     studieID = voegStudieToe("Biologie", "N&G")
     schoolID = voegSchoolToe("RU", 8, 39, "bus-bus", 2.78, "Nijmegen", "6525 XZ", 4)
     voegStudieperschoolToe(schoolID, studieID, 71, 3, 200, 4.3, 250)
 
-    # Tweede studie: "Economie" bij dezelfde school "RU"
+    # Tweede studie: economie op RU
     studieID2 = voegStudieToe("Economie", "E&M")
     voegStudieperschoolToe(schoolID, studieID2, 66, 3, 150, 3.9, 160)
 
-    # Derde studie: "Geneeskunde" bij school "UU"
+    # Derde studie: geneeskunde op UU
     studieID3 = voegStudieToe("Geneeskunde", "N&G")
     schoolID2 = voegSchoolToe("UU", 64, 115, "bus-trein-tram", 17.30, "Utrecht", "3584 CS", 8)
     voegStudieperschoolToe(schoolID2, studieID3, 70, 4, 60, 4.6, 400)
 
-    # Extra school toevoegen, bijvoorbeeld "TU/E" (hier geen koppeling)
+    # Extra school toevoegen, TU/E
     voegSchoolToe("TU/E", 58, 114, "bus-trein-trein", 16.90, "Eindhoven", "5612 AZ", 3)
 
-    # Optioneel: toon de inhoud van tbl_Studies
+   # Optioneel: toon de inhoud van tbl_Studies
     vraagOpGegevensStudiesTabel()

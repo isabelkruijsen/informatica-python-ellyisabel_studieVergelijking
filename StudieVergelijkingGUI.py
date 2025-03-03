@@ -13,26 +13,29 @@ from tkinter import *
 import StudieVergelijkingSQL
 
 def zoekStudies():
-    zoek_term = zoek_studieNaam.get() 
-    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(zoek_term)
+    zoekstudie = zoek_studieNaam.get() 
+    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(zoekstudie)
     print("Gevonden studies:", gevonden_Studies)
-    
     toonStudieSchoolStadInListbox(gevonden_Studies)
-    
-    if gevonden_Studies:
-        resultaatVar.set(gevonden_Studies[0][1])
-    else:
-        resultaatVar.set("Geen resultaten")
+
 
 def toonStudieSchoolStadInListbox(resultaten):
     listboxStudieSchoolStad.delete(0, END)
     if resultaten:
         listboxStudieSchoolStad.insert(END, "Studie - School - Stad")
         for studie, school, stad in resultaten:
-            resultaat = f"{studie} - {school} - {stad}" #Internet mag dit?
+            resultaat = studie, school, stad 
             listboxStudieSchoolStad.insert(END, resultaat)
     else:
         listboxStudieSchoolStad.insert(END, "Geen resultaten gevonden")
+
+def toonAlleStudieInListbox():
+    listboxStudieSchoolStad.delete(0, END) #maak de listbox leeg
+    resultaten = StudieVergelijkingSQL.vraagOpGegevensStudiesTabel()
+    for studie in resultaten:
+        resultaat = studie 
+        listboxStudieSchoolStad.insert(END, resultaat)
+    listboxStudieSchoolStad.insert(0, "studie - school - stad")
 
 def haalGeselecteerdeRijOp(event):
     #bepaal op welke regel er geklikt is
@@ -62,19 +65,22 @@ invoerVeldStudieNaam.grid(row=1, column=0, sticky="W")
 invoerVeldZoekStudie = Entry(venster, textvariable=zoek_studieNaam)
 invoerVeldZoekStudie.grid(row=1, column=1, sticky="W")
 
-# Invoerveld voor het tonen van het resultaat (schoolnaam)
-schoollabel = Label(venster, text="School:")
-schoollabel.grid(row=2, column=0, sticky="W")
-
-invoerVeldResultaat = Entry(venster, textvariable=resultaatVar)
-invoerVeldResultaat.grid(row=2, column=1, sticky="W")
 
 KnopZoekStudies = Button(venster, text="Zoek", width=12, command=zoekStudies)
 KnopZoekStudies.grid(row=1, column=3)
 
 listboxStudieSchoolStad = Listbox(venster, height=6, width=50)
 listboxStudieSchoolStad.grid(row=3, column=1, rowspan=6, columnspan=2, sticky="W")
-listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp) ##????
+
+knopToonstudies = Button(venster, text="Toon alle studies", width=12, command=toonAlleStudieInListbox)
+knopToonstudies.grid(row=4, column=3)
+
+# # Invoerveld voor het tonen van het resultaat (schoolnaam)  UITBREIDING!!!!!!!
+# schoollabel = Label(venster, text="School:")
+# schoollabel.grid(row=2, column=0, sticky="W")
+
+# schoolinvoer = Entry(venster, textvariable=resultaatVar)
+# schoolinvoer.grid(row=2, column=1, sticky="W")
 
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
