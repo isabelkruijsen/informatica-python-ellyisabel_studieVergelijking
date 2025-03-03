@@ -23,15 +23,18 @@ def zoekStudies():
          #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
         invoerVeldStudieNaam.insert(END, rij[1])
     toonStudieSchoolStadInListbox()
+
 # hij toont de studie stad en school in de listbox
 def toonStudieSchoolStadInListbox():
-    listboxStudieSchoolStad.delete(0, END) #maak de listbox leeg
-    studie_naam = ingevoerde_studieNaam.get() 
+    listboxStudieSchoolStad.delete(0, END)  # maak de listbox leeg
+    studie_naam = ingevoerde_studieNaam.get()
     gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(studie_naam)
-    if gevonden_Studies: # kijken of er een resultaat is
-        listboxStudieSchoolStad.insert(END, "Studie - School - Stad")  
+    if gevonden_Studies:  # als er resultaten zijn
+        listboxStudieSchoolStad.insert(END, "Studie - School - Stad")
         for studie, school, stad in gevonden_Studies:
-            listboxStudieSchoolStad.insert(END, studie + " - " + school + " - " + stad)  # Resultaat tonen
+            # Voeg de drie waarden samen in één string
+            resultaat = f"{studie} - {school} - {stad}" # van internet kan dit?????
+            listboxStudieSchoolStad.insert(END, resultaat)
     else:
         listboxStudieSchoolStad.insert(END, "Geen resultaten gevonden")
 
@@ -79,13 +82,14 @@ invoerVeldStudieNaam.grid(row=1, column=1, sticky="W")
 # invoerVeldStadNaam.grid(row=3, column=1, sticky="W")
 
 KnopZoekStudies = Button(venster, text="Zoek", width= 12, command= zoekStudies)
-KnopZoekStudies.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!!!!!!!
+KnopZoekStudies.grid(row=1, column=3) # knop die gekoppeld is met def: zoekstudies
 
 
 #listbox met studie stad en school
 listboxStudieSchoolStad = Listbox(venster, height= 6, width= 50)
 listboxStudieSchoolStad.grid(row=3, column=1, rowspan= 6, columnspan= 2, sticky= "W")
 listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
+
 #scroller bij de listbox
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")

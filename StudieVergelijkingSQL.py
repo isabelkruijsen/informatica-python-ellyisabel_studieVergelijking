@@ -9,7 +9,6 @@
 
 ### --------- Bibliotheken en globale variabelen -----------------
 
-
 import sqlite3
 with sqlite3.connect("studies.db") as db:
     cursor = db.cursor()
@@ -50,24 +49,32 @@ def maakTabellenAan():
             Postcode TEXT,
             Huisnummer INTEGER );""")
     print("Tabel 'tbl_Scholen' aangemaakt.")
-#nieuwe studie per school toevoegen
-def voegStudieperschoolToe(nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus):
-    cursor.execute("INSERT INTO tbl_StudiePerSchool (SchoolID, StudieID, ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus) VALUES(?, ?, ?, ?, ?, ?, ?)", 
-                   (nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus))
-    db.commit()
-    print("Studie per school toegevoegd.")
+
+  
 #nieuwe studie toevoegen
 def voegStudieToe(nieuw_studienaam, nieuw_profiel):
     cursor.execute("INSERT INTO tbl_Studies (Studienaam, Profiel) VALUES(?, ?)", 
-                   (nieuw_studienaam, nieuw_profiel))
+    (nieuw_studienaam, nieuw_profiel))
     db.commit()
-    print("Studie toegevoegd.")
+    print("studie toegevoegd")
+    return (nieuw_studienaam, nieuw_profiel)   
+
 #nieuwe school toevoegen
 def voegSchoolToe(nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer):
     cursor.execute("INSERT INTO tbl_Scholen (Schoolnaam, Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer) VALUES(?, ?, ?, ?, ?, ?, ?, ?)", 
-                   (nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer))
+    (nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer))
     db.commit()
-    print("School toegevoegd.")
+    print("school toegevoegd")
+    return (nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer)
+
+#nieuwe studie per school toevoegen
+def voegStudieperschoolToe(nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus):
+    cursor.execute("INSERT INTO tbl_StudiePerSchool (SchoolID, StudieID, ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus) VALUES(?, ?, ?, ?, ?, ?, ?)", 
+    (nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus))
+    db.commit()
+    print("Studie per school toegevoegd.")
+    return (nieuw_schoolID, nieuw_studieID, nieuw_procentgeslaagd, nieuw_duur, nieuw_aantalstudenten, nieuw_studententevredenheid, nieuw_numerusfixus)
+
 #hij zoekt studies in tabel en als hij gevonden is dat plakt hij met left join gelijk de school en stad er bij aan
 def zoekStudiesInTabel(ingevoerde_studieNaam):
     cursor.execute("""
@@ -79,6 +86,7 @@ def zoekStudiesInTabel(ingevoerde_studieNaam):
     zoek_resultaat = cursor.fetchall()
     if zoek_resultaat == []: #resultaat is leeg, geen studie gevonden
         print("Geen Studie gevonden met Studienaam:", ingevoerde_studieNaam)
+        
     return zoek_resultaat
 
 def vraagOpGegevensStudiesTabel():
@@ -88,8 +96,8 @@ def vraagOpGegevensStudiesTabel():
     return resultaat
 ### --------- Hoofdprogramma  ---------------
 maakTabellenAan()
-
 # eerste studie toevoegen, biologie op het RU
+
 voegStudieToe("Biologie", "N&G")
 voegSchoolToe("RU", 8, 39, "bus-bus", 2.78, "Nijmegen", "6525 XZ", 4)
 voegStudieperschoolToe(21, 1, 71, 3, 200, 4.3, 250)
