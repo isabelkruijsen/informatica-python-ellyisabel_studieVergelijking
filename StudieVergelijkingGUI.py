@@ -23,13 +23,17 @@ def zoekStudies():
          #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
         invoerVeldStudieNaam.insert(END, rij[1])
     toonStudieSchoolStadInListbox()
-
+# hij toont de studie stad en school in de listbox
 def toonStudieSchoolStadInListbox():
     listboxStudieSchoolStad.delete(0, END) #maak de listbox leeg
-    Studie_tabel = StudieVergelijkingSQL.vraagOpGegevensStudiesTabel()
-    for regel in Studie_tabel:
-        listboxStudieSchoolStad.insert(END, regel) #voeg elke regel uit resultaat in listboxMenu
-    listboxStudieSchoolStad.insert(0, "school studie stad")
+    studie_naam = ingevoerde_studieNaam.get() 
+    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(studie_naam)
+    if gevonden_Studies: # kijken of er een resultaat is
+        listboxStudieSchoolStad.insert(END, "Studie - School - Stad")  
+        for studie, school, stad in gevonden_Studies:
+            listboxStudieSchoolStad.insert(END, studie + " - " + school + " - " + stad)  # Resultaat tonen
+    else:
+        listboxStudieSchoolStad.insert(END, "Geen resultaten gevonden")
 
 ### functie voor het selecteren van een rij uit de listbox en deze in een andere veld te plaatsen
 def haalGeselecteerdeRijOp(event):
@@ -78,11 +82,11 @@ KnopZoekStudies = Button(venster, text="Zoek", width= 12, command= zoekStudies)
 KnopZoekStudies.grid(row=1, column=3) ## gekoppeld worden met defenitie 'zoekStudies'!!!!!!!!
 
 
-
+#listbox met studie stad en school
 listboxStudieSchoolStad = Listbox(venster, height= 6, width= 50)
 listboxStudieSchoolStad.grid(row=3, column=1, rowspan= 6, columnspan= 2, sticky= "W")
 listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
-
+#scroller bij de listbox
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
