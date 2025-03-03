@@ -12,33 +12,28 @@
 from tkinter import *
 import StudieVergelijkingSQL
 
-
-### ---------  Functie definities  -----------------
 def zoekStudies():
-    studie_naam = ingevoerde_studieNaam.get() 
-    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(studie_naam)
-    print("gevonden studies", gevonden_Studies)
-    invoerVeldStudieNaam.delete(0, END) #invoerveld voor naam leeg maken
-    for rij in gevonden_Studies: #voor elke rij dat de query oplevert
-         #toon studienaam, de tweede kolom uit het resultaat in de invoerveld
-        invoerVeldStudieNaam.insert(END, rij[1])
-    toonStudieSchoolStadInListbox()
+    zoek_term = zoek_studieNaam.get() 
+    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(zoek_term)
+    print("Gevonden studies:", gevonden_Studies)
+    
+    toonStudieSchoolStadInListbox(gevonden_Studies)
+    
+    if gevonden_Studies:
+        resultaatVar.set(gevonden_Studies[0][1])
+    else:
+        resultaatVar.set("Geen resultaten")
 
-# hij toont de studie stad en school in de listbox
-def toonStudieSchoolStadInListbox():
-    listboxStudieSchoolStad.delete(0, END)  # maak de listbox leeg
-    studie_naam = ingevoerde_studieNaam.get()
-    gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(studie_naam)
-    if gevonden_Studies:  # als er resultaten zijn
+def toonStudieSchoolStadInListbox(resultaten):
+    listboxStudieSchoolStad.delete(0, END)
+    if resultaten:
         listboxStudieSchoolStad.insert(END, "Studie - School - Stad")
-        for studie, school, stad in gevonden_Studies:
-            # Voeg de drie waarden samen in één string
-            resultaat = f"{studie} - {school} - {stad}" # van internet kan dit?????
+        for studie, school, stad in resultaten:
+            resultaat = f"{studie} - {school} - {stad}" #Internet mag dit?
             listboxStudieSchoolStad.insert(END, resultaat)
     else:
         listboxStudieSchoolStad.insert(END, "Geen resultaten gevonden")
 
-### functie voor het selecteren van een rij uit de listbox en deze in een andere veld te plaatsen
 def haalGeselecteerdeRijOp(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] 
@@ -49,57 +44,41 @@ def haalGeselecteerdeRijOp(event):
     #zet tekst in veld
     invoerVeldStudieNaam.insert(0, geselecteerdeTekst)
 
-
-### --------- Hoofdprogramma  ---------------
-
+# -----------HOOFDPROGRAMMA---------------- 
 venster = Tk()
-venster.iconbitmap("MC_icon.ico") #Let op: Dit werkt niet op een MAC! Zet deze regel dan in commentaar
+venster.iconbitmap("MC_icon.ico")  # op een Mac uitcommentariëren
 venster.wm_title("StudieVergelijking")
 
 labelIntro = Label(venster, text="Welkom!")
-#Vul hieronder een of meerdere zoektermen in, vervolgens zul je alle opties met jouw ingevulde eisen zien. Als je een studie selecteert, kun je vervolgens meer studie info of reisinformatie opvragen.
 labelIntro.grid(row=0, column=0, sticky="W")
 
-# schoolNaam = Label(venster, text="School:")
-# schoolNaam.grid(row=1, column=0)
+# Hier maken we twee aparte variabelen aan:
+zoek_studieNaam = StringVar()   # voor de zoekterm (studienaam)
+resultaatVar = StringVar()       # voor het tonen van de schoolnaam
 
-# ingevoerde_schoolNaam = StringVar () (VOOR UITBREIDING!!!!!!)
-# invoerVeldSchoolNaam = Entry(venster, textvariable= ingevoerde_schoolNaam)
-# invoerVeldSchoolNaam.grid(row=1, column=1, sticky="W")
+# Invoerveld voor het zoekcriterium (studienaam)
+invoerVeldStudieNaam = Label(venster, text="Zoek Studie:")
+invoerVeldStudieNaam.grid(row=1, column=0, sticky="W")
+invoerVeldZoekStudie = Entry(venster, textvariable=zoek_studieNaam)
+invoerVeldZoekStudie.grid(row=1, column=1, sticky="W")
 
-studieNaam = Label(venster, text="Studie:")
-studieNaam.grid(row=1, column=0)
+# Invoerveld voor het tonen van het resultaat (schoolnaam)
+schoollabel = Label(venster, text="School:")
+schoollabel.grid(row=2, column=0, sticky="W")
 
-ingevoerde_studieNaam = StringVar()
-invoerVeldStudieNaam = Entry(venster, textvariable= ingevoerde_studieNaam)
-invoerVeldStudieNaam.grid(row=1, column=1, sticky="W")
+invoerVeldResultaat = Entry(venster, textvariable=resultaatVar)
+invoerVeldResultaat.grid(row=2, column=1, sticky="W")
 
-#stadNaam = Label(venster, text="Stad:")
-#stadNaam.grid(row=3, column=0)
+KnopZoekStudies = Button(venster, text="Zoek", width=12, command=zoekStudies)
+KnopZoekStudies.grid(row=1, column=3)
 
-# ingevoerde_stadNaam = StringVar ()   (VOOR UITBREIDING!!!!!!)
-# invoerVeldStadNaam = Entry(venster, textvariable= ingevoerde_stadNaam)
-# invoerVeldStadNaam.grid(row=3, column=1, sticky="W")
+listboxStudieSchoolStad = Listbox(venster, height=6, width=50)
+listboxStudieSchoolStad.grid(row=3, column=1, rowspan=6, columnspan=2, sticky="W")
+listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp) ##????
 
-KnopZoekStudies = Button(venster, text="Zoek", width= 12, command= zoekStudies)
-KnopZoekStudies.grid(row=1, column=3) # knop die gekoppeld is met def: zoekstudies
-
-
-#listbox met studie stad en school
-listboxStudieSchoolStad = Listbox(venster, height= 6, width= 50)
-listboxStudieSchoolStad.grid(row=3, column=1, rowspan= 6, columnspan= 2, sticky= "W")
-listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
-
-#scroller bij de listbox
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
 scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
-
-
-
-
-
-#reageert op gebruikersinvoer, deze regel als laatste laten staan
 venster.mainloop()
