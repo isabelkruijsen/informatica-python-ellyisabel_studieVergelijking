@@ -109,7 +109,12 @@ with sqlite3.connect("studies.db") as db:
         resultaat = cursor.fetchall()
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
-    ### Hoofdprogramma
+    
+    
+    
+    
+    
+    ###----------------- Hoofdprogramma --------------###
 
     maakTabellenAan()
 
@@ -128,7 +133,10 @@ with sqlite3.connect("studies.db") as db:
     voegStudieperschoolToe(schoolID2, studieID3, 70, 4, 60, 4.6, 400)
 
     # Extra school toevoegen, TU/E
-    voegSchoolToe("TU/E", 58, 114, "bus-trein-trein", 16.90, "Eindhoven", "5612 AZ", 3)
+    schoolID3 = voegSchoolToe("TU/E", 58, 114, "bus-trein-trein", 16.90, "Eindhoven", "5612 AZ", 3)
 
+    # Studie natuurkunde toevoegen op TU/e
+    studieID4 = voegStudieToe("Natuurkunde", "N&T")
+    voegStudieperschoolToe(schoolID3, studieID4, 49, 4, 200, 3.9, "NULL")
    # Optioneel: toon de inhoud van tbl_Studies
     vraagOpGegevensStudiesTabel()

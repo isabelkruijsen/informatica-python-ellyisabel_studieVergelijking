@@ -47,7 +47,9 @@ def haalGeselecteerdeRijOp(event):
     #zet tekst in veld
     invoerVeldStudieNaam.insert(0, geselecteerdeTekst)
 
-# -----------HOOFDPROGRAMMA---------------- 
+
+
+## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
 venster.iconbitmap("MC_icon.ico")  # op een Mac uitcommentariëren
 venster.wm_title("StudieVergelijking")
@@ -62,18 +64,18 @@ resultaatVar = StringVar()       # voor het tonen van de schoolnaam
 # Invoerveld voor het zoekcriterium (studienaam)
 invoerVeldStudieNaam = Label(venster, text="Zoek Studie:")
 invoerVeldStudieNaam.grid(row=1, column=0, sticky="W")
+
 invoerVeldZoekStudie = Entry(venster, textvariable=zoek_studieNaam)
 invoerVeldZoekStudie.grid(row=1, column=1, sticky="W")
-
 
 KnopZoekStudies = Button(venster, text="Zoek", width=12, command=zoekStudies)
 KnopZoekStudies.grid(row=1, column=3)
 
+
 listboxStudieSchoolStad = Listbox(venster, height=6, width=50)
 listboxStudieSchoolStad.grid(row=3, column=1, rowspan=6, columnspan=2, sticky="W")
+listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
-knopToonstudies = Button(venster, text="Toon alle studies", width=12, command=toonAlleStudieInListbox)
-knopToonstudies.grid(row=4, column=3)
 
 # # Invoerveld voor het tonen van het resultaat (schoolnaam)  UITBREIDING!!!!!!!
 # schoollabel = Label(venster, text="School:")
@@ -86,5 +88,22 @@ scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
 scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
+
+knopToonstudies = Button(venster, text="Toon alle studies", width=12, command=toonAlleStudieInListbox)
+knopToonstudies.grid(row=4, column=3)
+
+labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
+labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
+
+ingevoerde_geselecteerdeStudie = StringVar()
+invoerveldGeselecteerdeStudie = Entry(venster, textvariable= invoerVeldStudieNaam)
+invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
+
+
+
+
+
+knopSluit = Button(venster, text= "Sluiten", width= 12, command= venster.destroy)
+knopSluit.grid(row= 17, column= 4)
 
 venster.mainloop()
