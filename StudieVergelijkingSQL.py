@@ -138,5 +138,5 @@ with sqlite3.connect("studies.db") as db:
     # Studie natuurkunde toevoegen op TU/e
     studieID4 = voegStudieToe("Natuurkunde", "N&T")
     voegStudieperschoolToe(schoolID3, studieID4, 49, 4, 200, 3.9, "NULL")
-   # Optioneel: toon de inhoud van tbl_Studies
+   # toon de inhoud van tbl_Studies
     vraagOpGegevensStudiesTabel()

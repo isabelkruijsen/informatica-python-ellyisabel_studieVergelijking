@@ -43,9 +43,9 @@ def haalGeselecteerdeRijOp(event):
     #haal tekst uit die regel
     geselecteerdeTekst = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst) 
     #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
-    invoerVeldStudieNaam.delete(0, END) 
+    invoerVeldZoekStudie.delete(0, END) 
     #zet tekst in veld
-    invoerVeldStudieNaam.insert(0, geselecteerdeTekst)
+    invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
 
 
 
@@ -96,7 +96,7 @@ labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
 labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
 
 ingevoerde_geselecteerdeStudie = StringVar()
-invoerveldGeselecteerdeStudie = Entry(venster, textvariable= invoerVeldStudieNaam)
+invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) # hier neemt hij nu wat je hebt ingevoerd in het invoer veld maar niet welke studie je geslecteerd hebt in de listbox
 invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
 
 
