@@ -88,15 +88,13 @@ with sqlite3.connect("studies.db") as db:
 
     # Functie om studies te zoeken met een gedeeltelijke match op de studienaam
     def zoekStudiesInTabel(ingevoerde_studieNaam):
-        # Voeg joker toe zodat er gezocht wordt naar studie als er fout wordt getypt
-        fout_getypt = "%" + ingevoerde_studieNaam + "%"  ### WERKT DIT??? biologiey herkent hij niet
         cursor.execute("""
             SELECT tbl_Studies.Studienaam, tbl_Scholen.Schoolnaam, tbl_Scholen.Stad
             FROM tbl_Studies
             JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID
             JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID
             WHERE tbl_Studies.Studienaam LIKE ?
-        """, (fout_getypt,))
+        """, (ingevoerde_studieNaam,))
         zoek_resultaat = cursor.fetchall()
         if not zoek_resultaat:
             print("Geen Studie gevonden met Studienaam:", ingevoerde_studieNaam)
@@ -113,16 +111,15 @@ with sqlite3.connect("studies.db") as db:
         SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus 
         FROM tbl_StudiePerSchool 
         JOIN tbl_Studies ON tbl_StudiePerSchool.StudieID = tbl_Studies.StudieID
-        WHERE tbl_Studies.Studienaam = ?
-    """, (studienaam1,))
+        WHERE tbl_Studies.Studienaam = ?""", (studienaam1,))
 
         resultaatstudieinfo = cursor.fetchall()
         return resultaatstudieinfo
-
-    def vraagOpGegevensreisinfo(reisinfo):
+#reisinfo
+    def vraagOpGegevensreisinfo(Schoolnaam):
         cursor.execute("""
-        SELECT Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer FROM tbl_Scholen WHERE reisinfo = ?""", (reisinfo,))
-
+        SELECT Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer 
+        FROM tbl_Scholen WHERE Schoolnaam = ?""", (Schoolnaam,))
         resultaatreisinfo = cursor.fetchall()
         return resultaatreisinfo
     

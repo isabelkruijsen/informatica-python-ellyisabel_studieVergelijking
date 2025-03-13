@@ -55,23 +55,28 @@ def geefstudieinfo():
     for resultaat in resultatenstudieinfo:
         listboxstudieinfo.insert(END, resultaat)
 
+
 # voor reis info
 
 def geefreisinfo():
     listboxreisinfo.delete(0, END) #maak de listbox leeg
     # Haal de geselecteerde studie op uit de listbox
     geselecteerde_regel = listboxStudieSchoolStad.curselection()
+    print("geselecterderegel", geselecteerde_regel)
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
-        listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
+        listboxreisinfo.insert(END, "Geen studie geselecteerd!")
         return  
     geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
+    print(geselecteerde_tekst)
     # De studienaam staat op de eerste positie
-    reisinfo = geselecteerde_tekst[0] 
+    Schoolnaam = geselecteerde_tekst[1] 
      # Haal studie-info op basis van de studienaam
-    resultatenreisinfo = StudieVergelijkingSQL.vraagOpGegevensreisinfo(reisinfo)
-    listboxstudieinfo.insert(END, "blehg")
+    print(Schoolnaam)
+    resultatenreisinfo = StudieVergelijkingSQL.vraagOpGegevensreisinfo(Schoolnaam)
+    listboxreisinfo.insert(END, "duur met auto-duur met OV-OV methode-prijs OV-Stad-postcode-huisnummer ")
     for resultaat in resultatenreisinfo:
-        listboxstudieinfo.insert(END, resultaat)
+        listboxreisinfo.insert(END, resultaat)
+        print(resultaat)
 
 #voor studie school stad
 def haalGeselecteerdeRijOp(event):
@@ -94,13 +99,14 @@ def haalGeselecteerdeRijOpstudieinfo(event):
     #zet tekst in veld
     listboxstudieinfo.insert(0, geselecteerdeTekst)
 
+# voor reisinfo
 def haalGeselecteerdeRijOpreisinfo(event):
     #bepaal op welke regel er geklikt is
-    geselecteerdeRegelInLijst = listboxstudieinfo.curselection()[0] 
+    geselecteerdeRegelInLijst = listboxreisinfo.curselection()[0] 
     #haal tekst uit die regel
-    geselecteerdeTekst = listboxstudieinfo.get(geselecteerdeRegelInLijst) 
+    geselecteerdeTekst = listboxreisinfo.get(geselecteerdeRegelInLijst) 
     #zet tekst in veld
-    listboxstudieinfo.insert(0, geselecteerdeTekst)
+    listboxreisinfo.insert(0, geselecteerdeTekst)
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
@@ -160,16 +166,17 @@ listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
+
 #reisinfo
 
 knopreisinfo = Button(venster, text="Geef reisinfo", width=12, command= geefreisinfo)
-knopreisinfo.grid(row=18, column=1)
+knopreisinfo.grid(row=24, column=1)
 
 listboxreisinfo = Listbox(venster, height=6, width=50)
-listboxreisinfo.grid(row=19, column=1, rowspan=6, columnspan=2, sticky="W")
+listboxreisinfo.grid(row=26, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxreisinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpreisinfo)
 
 knopSluit = Button(venster, text= "Sluiten", width= 12, command= venster.destroy)
-knopSluit.grid(row= 20, column= 4)
+knopSluit.grid(row= 29, column= 4)
 
 venster.mainloop()
