@@ -44,7 +44,7 @@ def geefstudieinfo():
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
         listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
         return  
-    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo()
+    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo(zoek_studieNaam)
     for studieinfo in resultatenstudieinfo:
         resultaat = studieinfo
         listboxstudieinfo.insert(END, resultaat)

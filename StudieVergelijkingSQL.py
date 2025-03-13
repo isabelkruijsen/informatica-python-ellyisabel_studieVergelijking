@@ -110,8 +110,8 @@ with sqlite3.connect("studies.db") as db:
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
     
-    def vraagOpGegevensstudieinfo():
-        cursor.execute("SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus FROM tbl_StudiePerSchool" )
+    def vraagOpGegevensstudieinfo(zoek_studieNaam):
+        cursor.execute("SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus FROM tbl_StudiePerSchool WHERE tbl_Studies.Studienaam FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID = ?", (zoek_studieNaam, ) ) #HIER BEN IK 
         resultaatstudieinfo = cursor.fetchall()
         print("studieinfo:", resultaatstudieinfo)
         return resultaatstudieinfo
