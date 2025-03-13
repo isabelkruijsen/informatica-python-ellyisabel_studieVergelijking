@@ -102,23 +102,29 @@ with sqlite3.connect("studies.db") as db:
             print("Geen Studie gevonden met Studienaam:", ingevoerde_studieNaam)
         return zoek_resultaat
 
- 
-   # Functie om alle studies in tbl_Studies op te vragen 
     def vraagOpGegevensStudiesTabel():
-        cursor.execute("SELECT tbl_Studies.Studienaam,  tbl_Scholen.Schoolnaam, tbl_Scholen.Stad FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID")
+        cursor.execute("SELECT tbl_Studies.Studienaam, tbl_Scholen.Schoolnaam, tbl_Scholen.Stad FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID")
         resultaat = cursor.fetchall()
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
-    
-    def vraagOpGegevensstudieinfo(zoek_studieNaam):
-        cursor.execute("SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus FROM tbl_StudiePerSchool WHERE tbl_Studies.Studienaam FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID = ?", (zoek_studieNaam, ) ) #HIER BEN IK 
+ 
+    def vraagOpGegevensstudieinfo(studienaam1):
+        cursor.execute("""
+        SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus 
+        FROM tbl_StudiePerSchool 
+        JOIN tbl_Studies ON tbl_StudiePerSchool.StudieID = tbl_Studies.StudieID
+        WHERE tbl_Studies.Studienaam = ?
+    """, (studienaam1,))
+
         resultaatstudieinfo = cursor.fetchall()
-        print("studieinfo:", resultaatstudieinfo)
         return resultaatstudieinfo
-    
-    
-    
-    
+
+    def vraagOpGegevensreisinfo(reisinfo):
+        cursor.execute("""
+        SELECT Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer FROM tbl_Scholen WHERE reisinfo = ?""", (reisinfo,))
+
+        resultaatreisinfo = cursor.fetchall()
+        return resultaatreisinfo
     
     ###----------------- Hoofdprogramma --------------###
 
@@ -145,4 +151,3 @@ with sqlite3.connect("studies.db") as db:
     studieID4 = voegStudieToe("Natuurkunde", "N&T")
     voegStudieperschoolToe(schoolID3, studieID4, 49, 4, 200, 3.9, "NULL")
    # toon de inhoud van tbl_Studies
-    vraagOpGegevensStudiesTabel()

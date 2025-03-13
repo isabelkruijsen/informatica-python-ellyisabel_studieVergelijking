@@ -37,6 +37,8 @@ def toonAlleStudieInListbox():
         listboxStudieSchoolStad.insert(END, resultaat)
     listboxStudieSchoolStad.insert(0, "studie - school - stad")
 
+# studie info tonen
+
 def geefstudieinfo():
     listboxstudieinfo.delete(0, END) #maak de listbox leeg
     # Haal de geselecteerde studie op uit de listbox
@@ -44,12 +46,34 @@ def geefstudieinfo():
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
         listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
         return  
-    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo(zoek_studieNaam)
-    for studieinfo in resultatenstudieinfo:
-        resultaat = studieinfo
+    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
+    # De studienaam staat op de eerste positie
+    studienaam1 = geselecteerde_tekst[0] 
+     # Haal studie-info op basis van de studienaam
+    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo(studienaam1)
+    listboxstudieinfo.insert(END, "Procent Geslaagd - Duur - Aantal Studenten - Tevredenheid - Numerus Fixus")
+    for resultaat in resultatenstudieinfo:
         listboxstudieinfo.insert(END, resultaat)
-    listboxstudieinfo.insert(0, "bleh")
 
+# voor reis info
+
+def geefreisinfo():
+    listboxreisinfo.delete(0, END) #maak de listbox leeg
+    # Haal de geselecteerde studie op uit de listbox
+    geselecteerde_regel = listboxStudieSchoolStad.curselection()
+    if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
+        listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
+        return  
+    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
+    # De studienaam staat op de eerste positie
+    reisinfo = geselecteerde_tekst[0] 
+     # Haal studie-info op basis van de studienaam
+    resultatenreisinfo = StudieVergelijkingSQL.vraagOpGegevensreisinfo(reisinfo)
+    listboxstudieinfo.insert(END, "blehg")
+    for resultaat in resultatenreisinfo:
+        listboxstudieinfo.insert(END, resultaat)
+
+#voor studie school stad
 def haalGeselecteerdeRijOp(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] 
@@ -60,15 +84,23 @@ def haalGeselecteerdeRijOp(event):
     #zet tekst in veld
     invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
 
+# voor studieinfo
+
 def haalGeselecteerdeRijOpstudieinfo(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxstudieinfo.curselection()[0] 
     #haal tekst uit die regel
     geselecteerdeTekst = listboxstudieinfo.get(geselecteerdeRegelInLijst) 
     #zet tekst in veld
-    invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
+    listboxstudieinfo.insert(0, geselecteerdeTekst)
 
-
+def haalGeselecteerdeRijOpreisinfo(event):
+    #bepaal op welke regel er geklikt is
+    geselecteerdeRegelInLijst = listboxstudieinfo.curselection()[0] 
+    #haal tekst uit die regel
+    geselecteerdeTekst = listboxstudieinfo.get(geselecteerdeRegelInLijst) 
+    #zet tekst in veld
+    listboxstudieinfo.insert(0, geselecteerdeTekst)
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
@@ -128,8 +160,16 @@ listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
+#reisinfo
+
+knopreisinfo = Button(venster, text="Geef reisinfo", width=12, command= geefreisinfo)
+knopreisinfo.grid(row=18, column=1)
+
+listboxreisinfo = Listbox(venster, height=6, width=50)
+listboxreisinfo.grid(row=19, column=1, rowspan=6, columnspan=2, sticky="W")
+listboxreisinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpreisinfo)
 
 knopSluit = Button(venster, text= "Sluiten", width= 12, command= venster.destroy)
-knopSluit.grid(row= 17, column= 4)
+knopSluit.grid(row= 20, column= 4)
 
 venster.mainloop()
