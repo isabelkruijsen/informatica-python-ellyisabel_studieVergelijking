@@ -37,6 +37,19 @@ def toonAlleStudieInListbox():
         listboxStudieSchoolStad.insert(END, resultaat)
     listboxStudieSchoolStad.insert(0, "studie - school - stad")
 
+def geefstudieinfo():
+    listboxstudieinfo.delete(0, END) #maak de listbox leeg
+    # Haal de geselecteerde studie op uit de listbox
+    geselecteerde_regel = listboxStudieSchoolStad.curselection()
+    if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
+        listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
+        return  
+    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo()
+    for studieinfo in resultatenstudieinfo:
+        resultaat = studieinfo
+        listboxstudieinfo.insert(END, resultaat)
+    listboxstudieinfo.insert(0, "bleh")
+
 def haalGeselecteerdeRijOp(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] 
@@ -44,6 +57,14 @@ def haalGeselecteerdeRijOp(event):
     geselecteerdeTekst = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst) 
     #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
     invoerVeldZoekStudie.delete(0, END) 
+    #zet tekst in veld
+    invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
+
+def haalGeselecteerdeRijOpstudieinfo(event):
+    #bepaal op welke regel er geklikt is
+    geselecteerdeRegelInLijst = listboxstudieinfo.curselection()[0] 
+    #haal tekst uit die regel
+    geselecteerdeTekst = listboxstudieinfo.get(geselecteerdeRegelInLijst) 
     #zet tekst in veld
     invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
 
@@ -99,8 +120,13 @@ ingevoerde_geselecteerdeStudie = StringVar()
 invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) # hier neemt hij nu wat je hebt ingevoerd in het invoer veld maar niet welke studie je geslecteerd hebt in de listbox
 invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
 
+#studie informatie knop en listbox
+knopstudieinfo = Button(venster, text="Geef studie info", width=12, command= geefstudieinfo)
+knopstudieinfo.grid(row=12, column=1)
 
-
+listboxstudieinfo = Listbox(venster, height=6, width=50)
+listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
+listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
 
 knopSluit = Button(venster, text= "Sluiten", width= 12, command= venster.destroy)

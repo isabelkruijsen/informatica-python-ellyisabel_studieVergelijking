@@ -66,7 +66,7 @@ with sqlite3.connect("studies.db") as db:
             VALUES (?, ?)""", (nieuw_studienaam, nieuw_profiel))
         db.commit()
         print("Studie toegevoegd:", nieuw_studienaam)
-        return cursor.lastrowid #geeft automatisch gegenererde sleutel van een ingevoegde rij MAG DIT???
+        return cursor.lastrowid #geeft automatisch gegenererde sleutel van een ingevoegde rij (opgezocht op internet)
 
     # Functie om een school toe te voegen en de gegenereerde ID terug te geven
     def voegSchoolToe(nieuw_schoolnaam, nieuw_duur_auto, nieuw_duur_OV, nieuw_OV_methode, nieuw_prijs_OV, nieuw_stad, nieuw_Postcode, nieuw_Huisnummer):
@@ -103,12 +103,18 @@ with sqlite3.connect("studies.db") as db:
         return zoek_resultaat
 
  
-   # Functie om alle studies in tbl_Studies op te vragen (optioneel)
+   # Functie om alle studies in tbl_Studies op te vragen 
     def vraagOpGegevensStudiesTabel():
-        cursor.execute("SELECT tbl_Studies.Studienaam, tbl_Scholen.Schoolnaam, tbl_Scholen.Stad FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID")
+        cursor.execute("SELECT tbl_Studies.Studienaam,  tbl_Scholen.Schoolnaam, tbl_Scholen.Stad FROM tbl_Studies JOIN tbl_StudiePerSchool ON tbl_Studies.StudieID = tbl_StudiePerSchool.StudieID JOIN tbl_Scholen ON tbl_StudiePerSchool.SchoolID = tbl_Scholen.SchoolID")
         resultaat = cursor.fetchall()
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
+    
+    def vraagOpGegevensstudieinfo():
+        cursor.execute("SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus FROM tbl_StudiePerSchool" )
+        resultaatstudieinfo = cursor.fetchall()
+        print("studieinfo:", resultaatstudieinfo)
+        return resultaatstudieinfo
     
     
     
