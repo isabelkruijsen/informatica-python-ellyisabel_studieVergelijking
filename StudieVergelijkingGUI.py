@@ -11,6 +11,7 @@
 ### --------- Bibliotheken en globale variabelen -----------------
 from tkinter import *
 import StudieVergelijkingSQL
+from PIL import ImageTk, Image
 
 def zoekStudies():
     zoekstudie = zoek_studieNaam.get() 
@@ -113,7 +114,8 @@ venster = Tk()
 venster.iconbitmap("studie_logo.ico")  # op een Mac uitcommentariëren
 venster.wm_title("StudieVergelijking")
 
-
+iconimg = ImageTk.PhotoImage(Image.open("studie_logo.ico")) 
+venster.iconphoto(False, iconimg)
 
 labelIntro = Label(venster, text="Welkom!")
 labelIntro.grid(row=0, column=0, sticky="W")
