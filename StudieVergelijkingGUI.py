@@ -174,7 +174,8 @@ fotoPad = "radboudlogo.png"
 padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
 fotoSchool = Label(venster, width=100, height=100, 
 image=padFotoGeselecteerdeSchool)
-fotoSchool.grid(row=13, column=4)
+fotoSchool.grid(row=13, column=4)       ##hier een deffenitie van maken, net zoals bij de andere scholen
+## Dan kun je die def aanhalen per geselecteerde school, if ... 
 
 #reisinfo
 
