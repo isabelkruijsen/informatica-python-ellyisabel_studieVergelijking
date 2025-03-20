@@ -110,7 +110,7 @@ def haalGeselecteerdeRijOpreisinfo(event):
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
-venster.jpgbitmap("studie_logo.jpg")  # op een Mac uitcommentariëren
+venster.iconbitmap("studie_logo.ico")  # op een Mac uitcommentariëren
 venster.wm_title("StudieVergelijking")
 
 
