@@ -170,6 +170,11 @@ listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
+fotoPad = "radboudlogo.png"
+padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+fotoSchool = Label(venster, width=100, height=100, 
+image=padFotoGeselecteerdeSchool)
+fotoSchool.grid(row=13, column=4)
 
 #reisinfo
 
