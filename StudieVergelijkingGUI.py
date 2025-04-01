@@ -134,64 +134,14 @@ def haalGeselecteerdeRijOpreisinfo(event):
     #zet tekst in veld
     listboxreisinfo.insert(0, geselecteerdeTekst)
 
-# # logo van de school radboud
-# def logo_school_radboud():
-#     fotoPad = "radboudlogo.png"
-#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#     fotoSchool = Label(venster, width=100, height=100, 
-#     image=padFotoGeselecteerdeSchool)
-#     fotoSchool.grid(row=13, column=4)  
-    
-# #logo school tu/e
-# def logo_school_tue():
-#     fotoPad = "tuelogo.png"
-#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#     fotoSchool = Label(venster, width=100, height=100, 
-#     image=padFotoGeselecteerdeSchool)
-#     fotoSchool.grid(row=13, column=4)  
-
-# #log school UU
-# def logo_school_uu():
-#     fotoPad = "utrechtlogo.png"
-#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#     fotoSchool = Label(venster, width=100, height=100, 
-#     image=padFotoGeselecteerdeSchool)
-#     fotoSchool.grid(row=13, column=4)  
-
-# #proberen def voor logo school
-# def logo_scholen():
-#     geselecteerde_regel = listboxStudieSchoolStad.curselection()
-#     print( geselecteerde_regel)
-#     geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
-#     print( geselecteerde_regel[0])    # De schoolnaam staat op de eerste positie
-#     Schoolnaam = geselecteerde_tekst[1] 
-#     if Schoolnaam == 'RU':
-#         fotoPad = "radboudlogo.png"
-#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#         fotoSchool = Label(venster, width=100, height=100, 
-#         image=padFotoGeselecteerdeSchool)
-#         fotoSchool.grid(row=13, column=4) 
-#     elif Schoolnaam == 'TU/E':
-#         fotoPad = "tuelogo.png"
-#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#         fotoSchool = Label(venster, width=100, height=100, 
-#         image=padFotoGeselecteerdeSchool)
-#         fotoSchool.grid(row=13, column=4) 
-#     elif Schoolnaam == "UU":
-#         fotoPad = "utrechtlogo.png"
-#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-#         fotoSchool = Label(venster, width=100, height=100, 
-#         image=padFotoGeselecteerdeSchool)
-#         fotoSchool.grid(row=13, column=4)
-
-
-
 
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
 venster.iconbitmap("studie_logo.ico")  # op een Mac uitcommentariëren
 venster.wm_title("StudieVergelijking")
+venster.config(bg= "silver")
+
 
 iconimg = ImageTk.PhotoImage(Image.open("studie_logo.ico")) 
 venster.iconphoto(False, iconimg)
@@ -210,7 +160,7 @@ invoerVeldStudieNaam.grid(row=1, column=0, sticky="W")
 invoerVeldZoekStudie = Entry(venster, textvariable=zoek_studieNaam)
 invoerVeldZoekStudie.grid(row=1, column=1, sticky="W")
 
-KnopZoekStudies = Button(venster, text="Zoek", width=12, command=zoekStudies)
+KnopZoekStudies = Button(venster, text="Zoek", width=12, bg= "midnightblue", fg="snow" ,command=zoekStudies)
 KnopZoekStudies.grid(row=1, column=3)
 
 
@@ -227,46 +177,40 @@ scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
 
 
-knopToonstudies = Button(venster, text="Toon alle studies", width=12, command=toonAlleStudieInListbox)
+knopToonstudies = Button(venster, text="Toon alle studies", width=12 , bg= "midnightblue", fg="snow", command=toonAlleStudieInListbox)
 knopToonstudies.grid(row=4, column=3)
 
 labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
 labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
 
+# logo scholen in pagina zetten
 padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-fotoSchool = Label(venster, width=100, height=100, image=padFotoGeselecteerdeSchool)
-fotoSchool.grid(row=13, column=4) 
+fotoSchool = Label(venster, width=100, height=100, bg="silver", image=padFotoGeselecteerdeSchool)
+fotoSchool.grid(row=13, column=3) 
 
 ingevoerde_geselecteerdeStudie = StringVar()
 invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) 
 invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
 
 #studie informatie knop en listbox
-knopstudieinfo = Button(venster, text="Geef studie info", width=12, command= geefstudieinfo)
+knopstudieinfo = Button(venster, text="Geef studie info", width=12 , bg= "midnightblue", fg="snow", command= geefstudieinfo)
 knopstudieinfo.grid(row=12, column=1)
 
 listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
-# fotoPad = "radboudlogo.png"
-# padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-# fotoSchool = Label(venster, width=100, height=100, 
-# image=padFotoGeselecteerdeSchool)
-# fotoSchool.grid(row=13, column=4) 
-
-#logo scholen in programma zetten
 
 #reisinfo
 
-knopreisinfo = Button(venster, text="Geef reisinfo", width=12, command= geefreisinfo)
+knopreisinfo = Button(venster, text="Geef reisinfo", width=12 , bg= "midnightblue", fg="snow", command= geefreisinfo)
 knopreisinfo.grid(row=24, column=1)
 
 listboxreisinfo = Listbox(venster, height=6, width=50)
 listboxreisinfo.grid(row=26, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxreisinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpreisinfo)
 
-knopSluit = Button(venster, text= "Sluiten", width= 12, command= venster.destroy)
+knopSluit = Button(venster, text= "Sluiten", width= 12 , bg= "midnightblue", fg="snow", command= venster.destroy)
 knopSluit.grid(row= 29, column= 4)
 
 venster.mainloop()
