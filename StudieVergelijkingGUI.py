@@ -13,6 +13,8 @@ from tkinter import *
 import StudieVergelijkingSQL
 from PIL import ImageTk, Image
 
+fotoPad= ""
+
 def zoekStudies():
     zoekstudie = zoek_studieNaam.get() 
     gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(zoekstudie)
@@ -63,7 +65,6 @@ def geefreisinfo():
     listboxreisinfo.delete(0, END) #maak de listbox leeg
     # Haal de geselecteerde studie op uit de listbox
     geselecteerde_regel = listboxStudieSchoolStad.curselection()
-    print("geselecterderegel", geselecteerde_regel)
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
         listboxreisinfo.insert(END, "Geen studie geselecteerd!")
         return  
@@ -89,27 +90,28 @@ def haalGeselecteerdeRijOp(event):
     invoerVeldZoekStudie.delete(0, END) 
     #zet tekst in veld
     invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
-    regel = listboxStudieSchoolStad.get(geselecteerdeTekst[0])
+
+    regel = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst)
+    print("regel:" , regel)
     global fotoPad
     Schoolnaam= regel[1]
+    print('schoolnaam;', Schoolnaam)
     if Schoolnaam == 'RU':
+        print("hallo")
         fotoPad = "radboudlogo.png"
-        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-        fotoSchool = Label(venster, width=100, height=100, 
-        image=padFotoGeselecteerdeSchool)
-        fotoSchool.grid(row=13, column=4) 
+        nieuwPhotoPad = PhotoImage(file=fotoPad)
+        fotoSchool.configure(image=nieuwPhotoPad)
+        fotoSchool.image = nieuwPhotoPad
     elif Schoolnaam == 'TU/E':
         fotoPad = "tuelogo.png"
-        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-        fotoSchool = Label(venster, width=100, height=100, 
-        image=padFotoGeselecteerdeSchool)
-        fotoSchool.grid(row=13, column=4) 
+        nieuwPhotoPad = PhotoImage(file=fotoPad)
+        fotoSchool.configure(image=nieuwPhotoPad)
+        fotoSchool.image = nieuwPhotoPad
     elif Schoolnaam == "UU":
         fotoPad = "utrechtlogo.png"
-        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-        fotoSchool = Label(venster, width=100, height=100, 
-        image=padFotoGeselecteerdeSchool)
-        fotoSchool.grid(row=13, column=4)
+        nieuwPhotoPad = PhotoImage(file=fotoPad)
+        fotoSchool.configure(image=nieuwPhotoPad)
+        fotoSchool.image = nieuwPhotoPad
 
 
 
@@ -223,11 +225,17 @@ scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
 scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
+
+
 knopToonstudies = Button(venster, text="Toon alle studies", width=12, command=toonAlleStudieInListbox)
 knopToonstudies.grid(row=4, column=3)
 
 labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
 labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
+
+padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+fotoSchool = Label(venster, width=100, height=100, image=padFotoGeselecteerdeSchool)
+fotoSchool.grid(row=13, column=4) 
 
 ingevoerde_geselecteerdeStudie = StringVar()
 invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) 
