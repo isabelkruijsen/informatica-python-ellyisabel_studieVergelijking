@@ -138,9 +138,9 @@ def haalGeselecteerdeRijOpreisinfo(event):
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
-venster.iconbitmap("studie_logo.ico")  # op een Mac uitcommentariëren
+venster.iconbitmap("studie_logo.ico")  
 venster.wm_title("StudieVergelijking")
-venster.config(bg= "silver")
+venster.config(bg= "#C1CFD6") # wij hebben de kleuren van ons logo opgezocht en deze als kleur van de achtergrond en kleur van knopjes genomen
 
 
 iconimg = ImageTk.PhotoImage(Image.open("studie_logo.ico")) 
@@ -160,7 +160,7 @@ invoerVeldStudieNaam.grid(row=1, column=0, sticky="W")
 invoerVeldZoekStudie = Entry(venster, textvariable=zoek_studieNaam)
 invoerVeldZoekStudie.grid(row=1, column=1, sticky="W")
 
-KnopZoekStudies = Button(venster, text="Zoek", width=12, bg= "midnightblue", fg="snow" ,command=zoekStudies)
+KnopZoekStudies = Button(venster, text="Zoek", width=12, bg= "#1E73BE", fg="snow" ,command=zoekStudies)
 KnopZoekStudies.grid(row=1, column=3)
 
 
@@ -177,7 +177,7 @@ scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
 
 
 
-knopToonstudies = Button(venster, text="Toon alle studies", width=12 , bg= "midnightblue", fg="snow", command=toonAlleStudieInListbox)
+knopToonstudies = Button(venster, text="Toon alle studies", width=12 , bg= "#1E73BE", fg="snow", command=toonAlleStudieInListbox)
 knopToonstudies.grid(row=4, column=3)
 
 labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
@@ -185,7 +185,7 @@ labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
 
 # logo scholen in pagina zetten
 padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-fotoSchool = Label(venster, width=100, height=100, bg="silver", image=padFotoGeselecteerdeSchool)
+fotoSchool = Label(venster, width=100, height=100, bg="#C1CFD6", image=padFotoGeselecteerdeSchool)
 fotoSchool.grid(row=13, column=3) 
 
 ingevoerde_geselecteerdeStudie = StringVar()
@@ -193,7 +193,7 @@ invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam )
 invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
 
 #studie informatie knop en listbox
-knopstudieinfo = Button(venster, text="Geef studie info", width=12 , bg= "midnightblue", fg="snow", command= geefstudieinfo)
+knopstudieinfo = Button(venster, text="Geef studie info", width=12 , bg= "#1E73BE", fg="snow", command= geefstudieinfo)
 knopstudieinfo.grid(row=12, column=1)
 
 listboxstudieinfo = Listbox(venster, height=6, width=50)
@@ -203,14 +203,14 @@ listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
 #reisinfo
 
-knopreisinfo = Button(venster, text="Geef reisinfo", width=12 , bg= "midnightblue", fg="snow", command= geefreisinfo)
+knopreisinfo = Button(venster, text="Geef reisinfo", width=12 , bg= "#1E73BE", fg="snow", command= geefreisinfo)
 knopreisinfo.grid(row=24, column=1)
 
 listboxreisinfo = Listbox(venster, height=6, width=50)
 listboxreisinfo.grid(row=26, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxreisinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpreisinfo)
 
-knopSluit = Button(venster, text= "Sluiten", width= 12 , bg= "midnightblue", fg="snow", command= venster.destroy)
+knopSluit = Button(venster, text= "Sluiten", width= 12 , bg= "#1E73BE", fg="snow", command= venster.destroy)
 knopSluit.grid(row= 29, column= 4)
 
 venster.mainloop()
