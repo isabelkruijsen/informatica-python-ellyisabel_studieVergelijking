@@ -69,9 +69,9 @@ def geefreisinfo():
         return  
     geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
     print(geselecteerde_tekst)
-    # De studienaam staat op de eerste positie
+    # De schoolnaam staat op de eerste positie
     Schoolnaam = geselecteerde_tekst[1] 
-     # Haal studie-info op basis van de studienaam
+     # Haal studie-info op basis van de schoolnaam
     print(Schoolnaam)
     resultatenreisinfo = StudieVergelijkingSQL.vraagOpGegevensreisinfo(Schoolnaam)
     listboxreisinfo.insert(END, "duur met auto-duur met OV-OV methode-prijs OV-Stad-postcode-huisnummer ")
@@ -89,6 +89,29 @@ def haalGeselecteerdeRijOp(event):
     invoerVeldZoekStudie.delete(0, END) 
     #zet tekst in veld
     invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
+    regel = listboxStudieSchoolStad.get(geselecteerdeTekst[0])
+    global fotoPad
+    Schoolnaam= regel[1]
+    if Schoolnaam == 'RU':
+        fotoPad = "radboudlogo.png"
+        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+        fotoSchool = Label(venster, width=100, height=100, 
+        image=padFotoGeselecteerdeSchool)
+        fotoSchool.grid(row=13, column=4) 
+    elif Schoolnaam == 'TU/E':
+        fotoPad = "tuelogo.png"
+        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+        fotoSchool = Label(venster, width=100, height=100, 
+        image=padFotoGeselecteerdeSchool)
+        fotoSchool.grid(row=13, column=4) 
+    elif Schoolnaam == "UU":
+        fotoPad = "utrechtlogo.png"
+        padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+        fotoSchool = Label(venster, width=100, height=100, 
+        image=padFotoGeselecteerdeSchool)
+        fotoSchool.grid(row=13, column=4)
+
+
 
 # voor studieinfo
 
@@ -108,6 +131,60 @@ def haalGeselecteerdeRijOpreisinfo(event):
     geselecteerdeTekst = listboxreisinfo.get(geselecteerdeRegelInLijst) 
     #zet tekst in veld
     listboxreisinfo.insert(0, geselecteerdeTekst)
+
+# # logo van de school radboud
+# def logo_school_radboud():
+#     fotoPad = "radboudlogo.png"
+#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#     fotoSchool = Label(venster, width=100, height=100, 
+#     image=padFotoGeselecteerdeSchool)
+#     fotoSchool.grid(row=13, column=4)  
+    
+# #logo school tu/e
+# def logo_school_tue():
+#     fotoPad = "tuelogo.png"
+#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#     fotoSchool = Label(venster, width=100, height=100, 
+#     image=padFotoGeselecteerdeSchool)
+#     fotoSchool.grid(row=13, column=4)  
+
+# #log school UU
+# def logo_school_uu():
+#     fotoPad = "utrechtlogo.png"
+#     padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#     fotoSchool = Label(venster, width=100, height=100, 
+#     image=padFotoGeselecteerdeSchool)
+#     fotoSchool.grid(row=13, column=4)  
+
+# #proberen def voor logo school
+# def logo_scholen():
+#     geselecteerde_regel = listboxStudieSchoolStad.curselection()
+#     print( geselecteerde_regel)
+#     geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
+#     print( geselecteerde_regel[0])    # De schoolnaam staat op de eerste positie
+#     Schoolnaam = geselecteerde_tekst[1] 
+#     if Schoolnaam == 'RU':
+#         fotoPad = "radboudlogo.png"
+#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#         fotoSchool = Label(venster, width=100, height=100, 
+#         image=padFotoGeselecteerdeSchool)
+#         fotoSchool.grid(row=13, column=4) 
+#     elif Schoolnaam == 'TU/E':
+#         fotoPad = "tuelogo.png"
+#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#         fotoSchool = Label(venster, width=100, height=100, 
+#         image=padFotoGeselecteerdeSchool)
+#         fotoSchool.grid(row=13, column=4) 
+#     elif Schoolnaam == "UU":
+#         fotoPad = "utrechtlogo.png"
+#         padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+#         fotoSchool = Label(venster, width=100, height=100, 
+#         image=padFotoGeselecteerdeSchool)
+#         fotoSchool.grid(row=13, column=4)
+
+
+
+
 
 ## -----------HOOFDPROGRAMMA---------------- ##
 venster = Tk()
@@ -140,12 +217,6 @@ listboxStudieSchoolStad.grid(row=3, column=1, rowspan=6, columnspan=2, sticky="W
 listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
 
-# # Invoerveld voor het tonen van het resultaat (schoolnaam)  UITBREIDING!!!!!!!
-# schoollabel = Label(venster, text="School:")
-# schoollabel.grid(row=2, column=0, sticky="W")
-
-# schoolinvoer = Entry(venster, textvariable=resultaatVar)
-# schoolinvoer.grid(row=2, column=1, sticky="W")
 
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
@@ -159,7 +230,7 @@ labelGeselecteerdeStudie = Label(venster, text="Geselecteerde studie:")
 labelGeselecteerdeStudie.grid(row = 10, column= 0, sticky= "W")
 
 ingevoerde_geselecteerdeStudie = StringVar()
-invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) # hier neemt hij nu wat je hebt ingevoerd in het invoer veld maar niet welke studie je geslecteerd hebt in de listbox
+invoerveldGeselecteerdeStudie = Entry(venster, textvariable= zoek_studieNaam ) 
 invoerveldGeselecteerdeStudie.grid(row=10, column= 1, sticky= "W")
 
 #studie informatie knop en listbox
@@ -170,12 +241,13 @@ listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
-fotoPad = "radboudlogo.png"
-padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
-fotoSchool = Label(venster, width=100, height=100, 
-image=padFotoGeselecteerdeSchool)
-fotoSchool.grid(row=13, column=4)       ##hier een deffenitie van maken, net zoals bij de andere scholen
-## Dan kun je die def aanhalen per geselecteerde school, if ... 
+# fotoPad = "radboudlogo.png"
+# padFotoGeselecteerdeSchool = PhotoImage(file=fotoPad)
+# fotoSchool = Label(venster, width=100, height=100, 
+# image=padFotoGeselecteerdeSchool)
+# fotoSchool.grid(row=13, column=4) 
+
+#logo scholen in programma zetten
 
 #reisinfo
 
