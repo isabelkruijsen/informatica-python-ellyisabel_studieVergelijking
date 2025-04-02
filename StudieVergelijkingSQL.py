@@ -106,17 +106,17 @@ with sqlite3.connect("studies.db") as db:
         print("Tabel tbl_Studies:", resultaat)
         return resultaat
  
-    def vraagOpGegevensstudieinfo(studienaam1):
+    def vraagOpGegevensstudieinfo(studieNaam1):
         cursor.execute("""
         SELECT ProcentGeslaagd, Duur, AantalStudenten, Studententevredenheid, Numerusfixus 
         FROM tbl_StudiePerSchool 
         JOIN tbl_Studies ON tbl_StudiePerSchool.StudieID = tbl_Studies.StudieID
-        WHERE tbl_Studies.Studienaam = ?""", (studienaam1,))
+        WHERE tbl_Studies.Studienaam = ?""", (studieNaam1,))
 
         resultaatstudieinfo = cursor.fetchall()
         return resultaatstudieinfo
     #reisinfo
-    def vraagOpGegevensreisinfo(Schoolnaam):
+    def vraagOpGegevensReisInfo(Schoolnaam):
         cursor.execute("""
         SELECT Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer 
         FROM tbl_Scholen WHERE Schoolnaam = ?""", (Schoolnaam,))
