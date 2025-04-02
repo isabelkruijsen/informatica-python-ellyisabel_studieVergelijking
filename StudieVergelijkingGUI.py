@@ -86,7 +86,6 @@ def haalGeselecteerdeRijOp(event):
     Schoolnaam= regel[1]
     print('schoolnaam;', Schoolnaam)
     if Schoolnaam == 'RU':
-        print("hallo")
         fotoPad = "radboudlogo.png"
         nieuwPhotoPad = PhotoImage(file=fotoPad)
         fotoSchool.configure(image=nieuwPhotoPad)
