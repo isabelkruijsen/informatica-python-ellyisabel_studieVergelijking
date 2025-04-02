@@ -115,7 +115,7 @@ with sqlite3.connect("studies.db") as db:
 
         resultaatstudieinfo = cursor.fetchall()
         return resultaatstudieinfo
-#reisinfo
+    #reisinfo
     def vraagOpGegevensreisinfo(Schoolnaam):
         cursor.execute("""
         SELECT Duur_Auto, Duur_OV, OV_Methode, Prijs_OV, Stad, Postcode, Huisnummer 

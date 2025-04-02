@@ -15,12 +15,12 @@ from PIL import ImageTk, Image
 
 fotoPad= ""
 
+## voor de functie voor het zoeken van een ingevoerde studie
 def zoekStudies():
     zoekstudie = zoek_studieNaam.get() 
     gevonden_Studies = StudieVergelijkingSQL.zoekStudiesInTabel(zoekstudie)
     print("Gevonden studies:", gevonden_Studies)
     toonStudieSchoolStadInListbox(gevonden_Studies)
-
 
 def toonStudieSchoolStadInListbox(resultaten):
     listboxStudieSchoolStad.delete(0, END)
@@ -32,8 +32,9 @@ def toonStudieSchoolStadInListbox(resultaten):
     else:
         listboxStudieSchoolStad.insert(END, "Geen resultaten gevonden")
 
+## voor het tonen van alle studies in de listbox
 def toonAlleStudieInListbox():
-    listboxStudieSchoolStad.delete(0, END) #maak de listbox leeg
+    listboxStudieSchoolStad.delete(0, END) #maakt de listbox leeg
     resultaten = StudieVergelijkingSQL.vraagOpGegevensStudiesTabel()
     for studie in resultaten:
         resultaat = studie 
@@ -41,38 +42,30 @@ def toonAlleStudieInListbox():
     listboxStudieSchoolStad.insert(0, "studie - school - stad")
 
 # studie info tonen
-
 def geefstudieinfo():
-    listboxstudieinfo.delete(0, END) #maak de listbox leeg
-    # Haal de geselecteerde studie op uit de listbox
-    geselecteerde_regel = listboxStudieSchoolStad.curselection()
+    listboxstudieinfo.delete(0, END) #maakt de listbox leeg
+    geselecteerde_regel = listboxStudieSchoolStad.curselection() # Haalt de geselecteerde studie op uit de listbox
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
         listboxstudieinfo.insert(END, "Geen studie geselecteerd!")
         return  
-    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
-    # De studienaam staat op de eerste positie
+    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])  # De studienaam staat op de eerste positie
     studienaam1 = geselecteerde_tekst[0] 
-     # Haal studie-info op basis van de studienaam
-    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo(studienaam1)
+    resultatenstudieinfo = StudieVergelijkingSQL.vraagOpGegevensstudieinfo(studienaam1) # Haalt studie-info op basis van de studienaam
     listboxstudieinfo.insert(END, "Procent Geslaagd - Duur - Aantal Studenten - Tevredenheid - Numerus Fixus")
     for resultaat in resultatenstudieinfo:
         listboxstudieinfo.insert(END, resultaat)
 
 
-# voor reis info
-
+# reis info tonen
 def geefreisinfo():
-    listboxreisinfo.delete(0, END) #maak de listbox leeg
-    # Haal de geselecteerde studie op uit de listbox
-    geselecteerde_regel = listboxStudieSchoolStad.curselection()
+    listboxreisinfo.delete(0, END) #maakt de listbox leeg
+    geselecteerde_regel = listboxStudieSchoolStad.curselection()     # Haalt de geselecteerde studie op uit de listbox
     if not geselecteerde_regel:  #als er geen studie in de vorige listbox geselecteerd is
         listboxreisinfo.insert(END, "Geen studie geselecteerd!")
         return  
-    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0])
+    geselecteerde_tekst = listboxStudieSchoolStad.get(geselecteerde_regel[0]) # De schoolnaam staat op de eerste positie
     print(geselecteerde_tekst)
-    # De schoolnaam staat op de eerste positie
-    Schoolnaam = geselecteerde_tekst[1] 
-     # Haal studie-info op basis van de schoolnaam
+    Schoolnaam = geselecteerde_tekst[1] # Haalt studie-info op basis van de schoolnaam
     print(Schoolnaam)
     resultatenreisinfo = StudieVergelijkingSQL.vraagOpGegevensreisinfo(Schoolnaam)
     listboxreisinfo.insert(END, "duur met auto-duur met OV-OV methode-prijs OV-Stad-postcode-huisnummer ")
@@ -80,16 +73,12 @@ def geefreisinfo():
         listboxreisinfo.insert(END, resultaat)
         print(resultaat)
 
-#voor studie school stad
+#voor het weergeven plaatjes van geselcteerde school
 def haalGeselecteerdeRijOp(event):
-    #bepaal op welke regel er geklikt is
-    geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] 
-    #haal tekst uit die regel
-    geselecteerdeTekst = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst) 
-    #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
-    invoerVeldZoekStudie.delete(0, END) 
-    #zet tekst in veld
-    invoerVeldZoekStudie.insert(0, geselecteerdeTekst)
+    geselecteerdeRegelInLijst = listboxStudieSchoolStad.curselection()[0] #bepaal op welke regel er geklikt is
+    geselecteerdeTekst = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst)     #haal tekst uit die regel
+    invoerVeldZoekStudie.delete(0, END)      #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
+    invoerVeldZoekStudie.insert(0, geselecteerdeTekst)     #zet tekst in veld
 
     regel = listboxStudieSchoolStad.get(geselecteerdeRegelInLijst)
     print("regel:" , regel)
@@ -113,10 +102,7 @@ def haalGeselecteerdeRijOp(event):
         fotoSchool.configure(image=nieuwPhotoPad)
         fotoSchool.image = nieuwPhotoPad
 
-
-
-# voor studieinfo
-
+# voor ophalen studieinfo
 def haalGeselecteerdeRijOpstudieinfo(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxstudieinfo.curselection()[0] 
@@ -125,7 +111,7 @@ def haalGeselecteerdeRijOpstudieinfo(event):
     #zet tekst in veld
     listboxstudieinfo.insert(0, geselecteerdeTekst)
 
-# voor reisinfo
+# voor ophalen reisinfo
 def haalGeselecteerdeRijOpreisinfo(event):
     #bepaal op welke regel er geklikt is
     geselecteerdeRegelInLijst = listboxreisinfo.curselection()[0] 
@@ -168,13 +154,10 @@ listboxStudieSchoolStad = Listbox(venster, height=6, width=50)
 listboxStudieSchoolStad.grid(row=3, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxStudieSchoolStad.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
 
-
-
 scrollbarlistbox = Scrollbar(venster)
 scrollbarlistbox.grid(row=3, column=2, rowspan=6, sticky="E")
 listboxStudieSchoolStad.config(yscrollcommand=scrollbarlistbox.set)
 scrollbarlistbox.config(command=listboxStudieSchoolStad.yview)
-
 
 
 knopToonstudies = Button(venster, text="Toon alle studies", width=12 , bg= "#1E73BE", fg="snow", command=toonAlleStudieInListbox)
@@ -200,9 +183,7 @@ listboxstudieinfo = Listbox(venster, height=6, width=50)
 listboxstudieinfo.grid(row=13, column=1, rowspan=6, columnspan=2, sticky="W")
 listboxstudieinfo.bind('<<ListboxSelect>>', haalGeselecteerdeRijOpstudieinfo)
 
-
 #reisinfo
-
 knopreisinfo = Button(venster, text="Geef reisinfo", width=12 , bg= "#1E73BE", fg="snow", command= geefreisinfo)
 knopreisinfo.grid(row=24, column=1)
 
